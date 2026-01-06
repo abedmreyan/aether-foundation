@@ -1,0 +1,15 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Create a simple test script
+RUN echo '#!/bin/sh' > /app/test.sh && \
+    echo 'echo "=== CONTAINER TEST START ==="' >> /app/test.sh && \
+    echo 'echo "Node version: $(node --version)"' >> /app/test.sh && \
+    echo 'echo "Working dir: $(pwd)"' >> /app/test.sh && \
+    echo 'ls -la /app || echo "Cannot list /app"' >> /app/test.sh && \
+    echo 'echo "=== TEST COMPLETE ==="' >> /app/test.sh && \
+    echo 'sleep 30' >> /app/test.sh && \
+    chmod +x /app/test.sh
+
+CMD ["/bin/sh", "/app/test.sh"]

@@ -1,0 +1,6 @@
+# This directory stores task specifications from the AI Dev Orchestrator
+# 
+# Directory structure:
+# - current-task.json - Active task being executed
+# - queue/ - Tasks awaiting approval or execution
+# - completed/ - Finished tasks (for history)

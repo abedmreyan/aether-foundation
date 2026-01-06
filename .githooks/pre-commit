@@ -1,0 +1,16 @@
+#!/bin/sh
+# Pre-commit hook for Aether Foundation
+# Runs TypeScript check and build verification
+
+echo "🔍 Running pre-commit checks..."
+
+# Type check
+echo "📝 Type checking..."
+npx tsc --noEmit
+if [ $? -ne 0 ]; then
+  echo "❌ TypeScript errors found. Please fix before committing."
+  exit 1
+fi
+
+echo "✅ Pre-commit checks passed!"
+exit 0

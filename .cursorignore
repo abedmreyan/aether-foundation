@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+aether-support/node_modules/
+
+# Build outputs
+dist/
+build/
+.next/
+aether-support/dist/
+
+# Database files
+*.db
+*.sqlite
+.aether-support-db.json
+
+# Logs
+*.log
+logs/
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+
+# Cache
+.cache/
+.turbo/
+

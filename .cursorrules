@@ -1,0 +1,131 @@
+# Aether Foundation CRM - Project Rules for Cursor
+
+## Project Overview
+Multi-tenant SaaS CRM platform built with React + TypeScript + Vite.
+First customer: Ajnabi tutoring company.
+
+## Quick Reference
+
+| Item | Value |
+|------|-------|
+| Stack | React + TypeScript + Vite |
+| Run | `npm run dev` |
+| Build | `npm run build` |
+| Port | http://localhost:5173 |
+| Test Login | admin@ajnabi.com / admin123 |
+
+## Directory Structure
+
+```
+aether_-foundation/
+├── .agent/           # AI documentation (READ FIRST)
+├── .cursor/agents/   # Agent persona files
+├── types/            # TypeScript types
+├── context/          # React Context providers
+├── services/         # Business logic & DB
+├── components/       # React components
+├── pages/            # Full page components
+└── App.tsx           # Root component
+```
+
+## Core Rules
+
+### 1. Read Before Working
+- **Quick tasks**: Read `.agent/file-index.md` first
+- **Complex tasks**: Read `.agent/context.md` and `.agent/architecture.md`
+- **Your specialty**: Read your agent persona in `.cursor/agents/`
+
+### 2. Follow TypeScript Patterns
+- Import types from `types/` folder
+- Use context hooks: `useAuth()`, `useCRM()`, `useData()`
+- Export new components from barrel files (`index.ts`)
+- No `any` type without justification
+
+### 3. Check Permissions
+- Use `canAccessPipeline()` before showing data
+- Mark financial fields with `isFinancial: true`
+- Respect RBAC rules in `services/permissions/`
+
+### 4. Track Progress
+- Update `.agent/current-work.md` when starting/completing tasks
+- Add decisions to Decision Log
+- Note blockers in Known Issues
+
+### 5. Verify Changes
+```bash
+npm run build
+```
+Run this after every code change.
+
+## Agent-Specific Rules
+
+See `.cursor/agents/` for your agent's specific guidelines:
+- `architect.md` - System design, types, refactoring
+- `frontend.md` - UI, components, styling
+- `services.md` - Database, context, business logic
+- `pipeline.md` - Pipeline config, views
+- `permissions.md` - RBAC, access control
+- `qa.md` - Testing, debugging
+
+## File Index (Quick Lookup)
+
+| Task | Primary File |
+|------|--------------|
+| Add pipeline field | `services/platformDatabase.ts` |
+| Change permissions | `services/permissions/roleDefaults.ts` |
+| Add component | `components/<type>/` |
+| Modify auth | `context/AuthContext.tsx` |
+| Entity CRUD | `services/customerDatabase.ts` |
+
+## Common Mistakes to Avoid
+
+❌ Don't skip reading context documentation
+❌ Don't create files outside directory structure
+❌ Don't forget to export from barrel files
+❌ Don't modify files outside your specialty without handoff
+❌ Don't forget `npm run build` after changes
+
+---
+
+## Task Orchestrator Integration
+
+This project uses the AI Dev Orchestrator for task planning and assignment.
+
+### When a Task Arrives
+
+Tasks from the orchestrator appear in `.tasks/current-task.json`.
+
+**ONLY execute tasks with `status: "approved"`**
+
+1. **Read task file**: `.tasks/current-task.json`
+2. **Load context**: Follow `context` section (workflows, docs, files)
+3. **Execute steps**: Follow `implementation.steps` array
+4. **Validate**: Run commands in `validation.commands`
+5. **Update status**: Set to `completed` or `blocked`
+
+### Full Workflow
+
+See `.agent/workflows/process-task.md` for complete instructions.
+
+### Example
+
+```json
+{
+  "status": "approved",
+  "context": {
+    "workflows": [".agent/workflows/add-pipeline-field.md"],
+    "relatedFiles": ["services/platformDatabase.ts"]
+  },
+  "implementation": {
+    "steps": [{ "file": "...", "action": "..." }]
+  }
+}
+```
+
+**Load context:**
+```
+@.agent/workflows/add-pipeline-field.md
+@services/platformDatabase.ts
+```
+
+**Execute each step, then update task status when complete.**

@@ -1,0 +1,55 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1762160069607,
+      "tag": "0000_graceful_talos",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1762162825480,
+      "tag": "0001_pale_agent_brand",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1762162845388,
+      "tag": "0002_good_silhouette",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1763565393886,
+      "tag": "0003_silly_marvel_boy",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1763566563958,
+      "tag": "0004_steady_aaron_stack",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1763567509932,
+      "tag": "0005_lame_giant_girl",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1763571934527,
+      "tag": "0006_confused_whirlwind",
+      "breakpoints": true
+    }
+  ]
+}

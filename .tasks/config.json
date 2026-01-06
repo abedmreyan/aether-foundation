@@ -1,0 +1,12 @@
+{
+    "orchestratorUrl": "http://localhost:3002",
+    "projectPath": "/Users/abedmreyan/Desktop/aether_-foundation",
+    "contextDirs": [
+        ".agent/",
+        ".cursor/agents/"
+    ],
+    "autoLoadContext": true,
+    "reportingEnabled": true,
+    "requireApproval": true,
+    "taskQueuePollingMs": 5000
+}

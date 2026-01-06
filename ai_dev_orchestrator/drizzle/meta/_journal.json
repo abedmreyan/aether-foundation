@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1765196542566,
+      "tag": "0000_tense_green_goblin",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1765196892787,
+      "tag": "0001_redundant_hawkeye",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1765201082809,
+      "tag": "0002_small_lily_hollister",
+      "breakpoints": true
+    }
+  ]
+}

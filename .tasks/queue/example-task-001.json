@@ -1,0 +1,69 @@
+{
+    "id": "example-task-001",
+    "title": "Add priority field to student pipeline",
+    "status": "pending_approval",
+    "createdAt": "2025-12-16T01:45:00Z",
+    "priority": "high",
+    "agent": {
+        "role": "pipeline",
+        "persona": ".cursor/agents/pipeline.md"
+    },
+    "context": {
+        "project": "Aether Foundation CRM",
+        "workflows": [
+            ".agent/workflows/add-pipeline-field.md"
+        ],
+        "docs": [
+            ".agent/context.md",
+            ".agent/conventions.md"
+        ],
+        "relatedFiles": [
+            "services/platformDatabase.ts",
+            "types/pipeline.ts",
+            "components/EntityForm.tsx"
+        ]
+    },
+    "implementation": {
+        "summary": "Add a priority select field (High/Medium/Low) to the student pipeline configuration to enable better lead management.",
+        "steps": [
+            {
+                "step": 1,
+                "action": "Add field definition",
+                "file": "services/platformDatabase.ts",
+                "location": "createAjnabiPipelines() → students pipeline fields array",
+                "description": "Add a new FieldDefinition object with:\n  - id: 'priority'\n  - name: 'priority'\n  - type: 'select'\n  - label: 'Priority'\n  - required: false\n  - options: ['High', 'Medium', 'Low']\n  - showInKanban: true\n  - showInTable: true"
+            },
+            {
+                "step": 2,
+                "action": "Verify types",
+                "file": "types/pipeline.ts",
+                "description": "Confirm FieldType union includes 'select'. If not present, add it."
+            },
+            {
+                "step": 3,
+                "action": "Test rendering",
+                "file": "components/EntityForm.tsx",
+                "description": "Verify EntityForm correctly renders a select dropdown for the new priority field based on the pipeline config."
+            }
+        ],
+        "validation": {
+            "commands": [
+                "npm run build",
+                "npm run dev"
+            ],
+            "criteria": [
+                "Build completes without errors",
+                "Priority dropdown appears in EntityForm",
+                "Can select High/Medium/Low options",
+                "Field value is saved with entity"
+            ]
+        }
+    },
+    "research": {
+        "summary": "CRM systems typically use 3-5 priority levels. High/Medium/Low is most common and user-friendly.",
+        "sources": [
+            "Perplexity research on CRM priority field best practices"
+        ]
+    },
+    "notes": "This is a straightforward pipeline field addition following the established pattern in the codebase."
+}

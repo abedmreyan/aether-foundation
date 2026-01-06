@@ -1,0 +1,90 @@
+# Aether Support - Cursor Rules
+
+Part of the Aether Ecosystem.
+
+## Project Overview
+
+| Item | Value |
+|------|-------|
+| Type | SaaS Communication Platform |
+| Stack | React + tRPC + Socket.io |
+| Package Manager | **pnpm** (not npm!) |
+| Run | `pnpm dev` |
+| Build | `pnpm build` |
+| Port | http://localhost:3000 |
+
+## Directory Structure
+
+```
+aether-support/
+├── client/src/        # React frontend
+│   ├── pages/         # Page components
+│   └── components/    # UI components
+├── server/            # Node.js backend
+│   ├── _core/         # Business logic
+│   └── routers.ts     # tRPC endpoints
+├── drizzle/           # Database schema
+└── shared/            # Shared types
+```
+
+## Core Rules
+
+### 1. Use pnpm, Not npm
+```bash
+pnpm install    # Install deps
+pnpm dev        # Run dev server
+pnpm build      # Production build
+```
+
+### 2. tRPC Query Patterns
+```typescript
+// Reading data
+const { data } = trpc.widgets.list.useQuery();
+
+// Mutating data
+const mutation = trpc.widgets.create.useMutation();
+await mutation.mutateAsync({ ... });
+```
+
+### 3. Socket.io Patterns
+```typescript
+// Emit event
+socket.emit('visitor:message', { sessionId, content });
+
+// Listen for event
+socket.on('message:received', handleMessage);
+```
+
+### 4. Database (Drizzle)
+- Schema in `drizzle/schema.ts`
+- Helpers in `server/db.ts`
+- Run migrations: `pnpm db:push`
+
+## Agent-Specific Files
+
+See `.cursor/agents/` in parent directory for agent guidelines.
+
+### Key Files by Task
+| Task | File |
+|------|------|
+| Widget UI | `client/src/pages/widgets.tsx` |
+| AI chatbot | `server/_core/aiChatbot.ts` |
+| Routing | `server/_core/routingEngine.ts` |
+| Real-time | `server/_core/socket.ts` |
+| API | `server/routers.ts` |
+
+## Migration Status
+
+> ⚠️ **Tech stack migration in progress**
+
+- Database: Drizzle/MySQL → Azure Database for PostgreSQL (pending)
+- Auth: Manus OAuth → Azure AD B2C (pending)
+
+Check `.agent/context.md` for current status.
+
+## Common Gotchas
+
+1. **Package manager**: Use `pnpm`, not `npm`
+2. **Port**: Runs on 3000, not 5173
+3. **Real-time**: Socket.io is critical for chat
+4. **Database**: Schema changes need `pnpm db:push`

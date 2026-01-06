@@ -1,0 +1,41 @@
+{
+  "folders": [
+    {
+      "name": "Aether Foundation (CRM)",
+      "path": "."
+    },
+    {
+      "name": "Aether Support",
+      "path": "./aether-support"
+    }
+  ],
+  "settings": {
+    // AI Context - Core Setting
+    "cursor.ai.alwaysIncludeContext": [
+      ".agent/**/*.md",
+      ".cursor/agents/**/*.md",
+      ".cursorrules",
+      "README.md",
+      "aether-support/.agent/**/*.md"
+    ],
+    
+    // AI Settings
+    "cursor.ai.includeContextFromOpenFiles": true,
+    "cursor.ai.maxTokens": 8192,
+    
+    // File Exclusions
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/.git": true,
+      "**/dist": true,
+      "**/.aether-support-db.json": true
+    },
+    
+    // Search Exclusions
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/dist": true,
+      "**/.git": true
+    }
+  }
+}

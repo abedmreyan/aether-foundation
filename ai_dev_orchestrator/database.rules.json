@@ -1,0 +1,108 @@
+{
+  "rules": {
+    // Projects - readable by authenticated users, writable by admins
+    "projects": {
+      ".read": "auth != null",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
+      "$projectId": {
+        ".validate": "newData.hasChildren(['name', 'status'])",
+        "name": {
+          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 255"
+        },
+        "status": {
+          ".validate": "newData.isString() && newData.val().matches(/^(draft|active|completed|archived)$/)"
+        }
+      }
+    },
+
+    // Tasks - readable by authenticated users, writable by assigned agent or admin
+    "tasks": {
+      ".read": "auth != null",
+      "$taskId": {
+        ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || data.child('assignedAgentId').val() === auth.uid)",
+        ".validate": "newData.hasChildren(['title', 'status', 'projectId'])",
+        "title": {
+          ".validate": "newData.isString() && newData.val().length > 0"
+        },
+        "status": {
+          ".validate": "newData.isString() && newData.val().matches(/^(pending|assigned|in_progress|completed|failed)$/)"
+        }
+      }
+    },
+
+    // Agents - readable by all authenticated, writable by admins only
+    "agents": {
+      ".read": "auth != null",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
+      "$agentId": {
+        ".validate": "newData.hasChildren(['name', 'role'])",
+        "name": {
+          ".validate": "newData.isString()"
+        },
+        "role": {
+          ".validate": "newData.isString()"
+        }
+      }
+    },
+
+    // Users - users can read their own data, admins can read/write all
+    "users": {
+      "$userId": {
+        ".read": "auth != null && (auth.uid === $userId || root.child('users').child(auth.uid).child('role').val() === 'admin')",
+        ".write": "auth != null && (auth.uid === $userId || root.child('users').child(auth.uid).child('role').val() === 'admin')",
+        "email": {
+          ".validate": "newData.isString()"
+        },
+        "role": {
+          ".validate": "newData.isString() && newData.val().matches(/^(user|admin|agent)$/)"
+        }
+      }
+    },
+
+    // Modules - linked to projects
+    "modules": {
+      ".read": "auth != null",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
+      "$moduleId": {
+        ".validate": "newData.hasChildren(['name', 'projectId'])"
+      }
+    },
+
+    // Agent Activity Logs - readable by admins, writable by system
+    "agentActivity": {
+      ".read": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
+      ".write": "auth != null"
+    },
+
+    // Index nodes for queries
+    "tasksByStatus": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+
+    "projectTasks": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+
+    "userProjects": {
+      "$userId": {
+        ".read": "auth != null && auth.uid === $userId",
+        ".write": "auth != null && auth.uid === $userId"
+      }
+    },
+
+    // Knowledge Base - readable by all, writable by admins
+    "knowledgeBase": {
+      ".read": "auth != null",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'"
+    },
+
+    // Approvals - readable by admins, writable by admins
+    "approvals": {
+      ".read": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'"
+    }
+  }
+}
+

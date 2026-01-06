@@ -1,0 +1,7 @@
+# Netlify redirects for AI Dev Orchestrator
+
+# Proxy API calls to Cloud Run backend
+/api/*  https://ai-dev-orchestrator-32jkoae66a-uc.a.run.app/api/:splat  200
+
+# SPA fallback
+/*  /index.html  200

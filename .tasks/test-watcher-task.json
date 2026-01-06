@@ -1,0 +1,42 @@
+{
+    "id": "test-task-watcher",
+    "title": "Test: Verify task watcher notifications",
+    "status": "approved",
+    "createdAt": "2025-12-16T02:10:00Z",
+    "priority": "high",
+    "agent": {
+        "role": "qa",
+        "persona": ".cursor/agents/qa.md"
+    },
+    "context": {
+        "project": "Aether Foundation CRM",
+        "workflows": [],
+        "docs": [
+            ".agent/context.md"
+        ],
+        "relatedFiles": []
+    },
+    "implementation": {
+        "summary": "This is a test task to verify the watcher is working correctly.",
+        "steps": [
+            {
+                "step": 1,
+                "action": "Verify watcher detected this task",
+                "file": "N/A",
+                "description": "Check that the watcher showed a notification when this file was created"
+            }
+        ],
+        "validation": {
+            "commands": [],
+            "criteria": [
+                "Notification appeared in terminal",
+                "Desktop notification showed (macOS)"
+            ]
+        }
+    },
+    "research": {
+        "summary": "Test task for watcher system",
+        "sources": []
+    },
+    "notes": "If you see this notification, the watcher is working! Delete this file after testing."
+}

@@ -128,7 +128,7 @@ class PlatformDatabase {
             role: 'management',
             avatar: 'KH',
             createdAt: now,
-            passwordHash: this.hashPassword('ajnabi2024')
+            passwordHash: this.hashPassword('PASSWORD')
         };
 
         // Amin - Admin role
@@ -140,7 +140,7 @@ class PlatformDatabase {
             role: 'admin',
             avatar: 'AM',
             createdAt: now,
-            passwordHash: this.hashPassword('ajnabi2024')
+            passwordHash: this.hashPassword('PASSWORD')
         };
 
         // Abed - Admin role
@@ -152,7 +152,7 @@ class PlatformDatabase {
             role: 'admin',
             avatar: 'AB',
             createdAt: now,
-            passwordHash: this.hashPassword('ajnabi2024')
+            passwordHash: this.hashPassword('PASSWORD')
         };
 
         // Create default roles for Ajnabi
@@ -167,10 +167,10 @@ class PlatformDatabase {
             companyId: ajnabiCompany.id,
             type: 'supabase',
             name: 'Ajnabi Production Database',
-            apiUrl: 'https://wtpbgbehebkwzvpbadgc.supabase.co',
-            apiKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind0cGJnYmVoZWJrd3p2cGJhZGdjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MzgxNTE2OSwiZXhwIjoyMDc5MzkxMTY5fQ.hTkLIuZTlvoWfzi6UltvwoArzboipnPCujoJarl1LwE',
+            apiUrl: 'https://0ec90b57d6e95fcbda19832f.supabase.co',
+            apiKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJib2x0IiwicmVmIjoiMGVjOTBiNTdkNmU5NWZjYmRhMTk4MzJmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4ODE1NzQsImV4cCI6MTc1ODg4MTU3NH0.9I8-U0x86Ak8t2DGaIk0HfvTSLsAyzdnz-Nw00mMkKw',
             isActive: true,
-            testStatus: 'pending',
+            testStatus: 'connected',
             lastTestedAt: now
         };
 

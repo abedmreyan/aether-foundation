@@ -14,10 +14,12 @@ import { CustomerDatabaseAdapter } from './CustomerDatabaseAdapter';
 export class SupabaseAdapter extends CustomerDatabaseAdapter {
     private baseUrl: string;
     private headers: HeadersInit;
+    private companyId: string;
 
     constructor(config: DbConnectionConfig) {
         super(config);
         this.baseUrl = (config.apiUrl || '').replace(/\/$/, '');
+        this.companyId = config.companyId;
         this.headers = {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${config.apiKey}`,
@@ -53,6 +55,8 @@ export class SupabaseAdapter extends CustomerDatabaseAdapter {
     ): Promise<PaginatedResult<T>> {
         const params = new URLSearchParams();
 
+        params.append('company_id', `eq.${this.companyId}`);
+
         if (filters?.stage) {
             const stages = Array.isArray(filters.stage) ? filters.stage : [filters.stage];
             params.append('stage', `in.(${stages.join(',')})`);
@@ -71,8 +75,11 @@ export class SupabaseAdapter extends CustomerDatabaseAdapter {
 
         const items = await this.fetch<T[]>(`/rest/v1/${entityType}?${params.toString()}`);
 
-        // Get total count
-        const countResponse = await fetch(`${this.baseUrl}/rest/v1/${entityType}?select=count`, {
+        const countParams = new URLSearchParams();
+        countParams.append('company_id', `eq.${this.companyId}`);
+        countParams.append('select', 'count');
+
+        const countResponse = await fetch(`${this.baseUrl}/rest/v1/${entityType}?${countParams.toString()}`, {
             headers: { ...this.headers, 'Prefer': 'count=exact' }
         });
         const total = parseInt(countResponse.headers.get('content-range')?.split('/')[1] || '0', 10);
@@ -88,7 +95,7 @@ export class SupabaseAdapter extends CustomerDatabaseAdapter {
 
     async getById<T extends CRMEntity>(entityType: string, id: string): Promise<T | null> {
         try {
-            const items = await this.fetch<T[]>(`/rest/v1/${entityType}?id=eq.${id}&limit=1`);
+            const items = await this.fetch<T[]>(`/rest/v1/${entityType}?id=eq.${id}&company_id=eq.${this.companyId}&limit=1`);
             return items[0] || null;
         } catch {
             return null;
@@ -96,12 +103,13 @@ export class SupabaseAdapter extends CustomerDatabaseAdapter {
     }
 
     async create<T extends CRMEntity>(entityType: string, data: Partial<T>): Promise<T> {
-        const now = Date.now();
+        const now = new Date().toISOString();
         const payload = {
             ...data,
+            company_id: this.companyId,
             stage: data.stage || 'new',
-            createdAt: now,
-            updatedAt: now
+            created_at: now,
+            updated_at: now
         };
 
         const items = await this.fetch<T[]>(`/rest/v1/${entityType}`, {
@@ -116,10 +124,10 @@ export class SupabaseAdapter extends CustomerDatabaseAdapter {
     async update<T extends CRMEntity>(entityType: string, id: string, data: Partial<T>): Promise<T> {
         const payload = {
             ...data,
-            updatedAt: Date.now()
+            updated_at: new Date().toISOString()
         };
 
-        const items = await this.fetch<T[]>(`/rest/v1/${entityType}?id=eq.${id}`, {
+        const items = await this.fetch<T[]>(`/rest/v1/${entityType}?id=eq.${id}&company_id=eq.${this.companyId}`, {
             method: 'PATCH',
             body: JSON.stringify(payload),
             headers: { 'Prefer': 'return=representation' }
@@ -129,7 +137,7 @@ export class SupabaseAdapter extends CustomerDatabaseAdapter {
     }
 
     async delete(entityType: string, id: string): Promise<void> {
-        await this.fetch(`/rest/v1/${entityType}?id=eq.${id}`, {
+        await this.fetch(`/rest/v1/${entityType}?id=eq.${id}&company_id=eq.${this.companyId}`, {
             method: 'DELETE'
         });
     }
@@ -139,11 +147,11 @@ export class SupabaseAdapter extends CustomerDatabaseAdapter {
     }
 
     async getByStage<T extends CRMEntity>(entityType: string, stage: string): Promise<T[]> {
-        return this.fetch<T[]>(`/rest/v1/${entityType}?stage=eq.${stage}`);
+        return this.fetch<T[]>(`/rest/v1/${entityType}?stage=eq.${stage}&company_id=eq.${this.companyId}`);
     }
 
     async getStats(entityType: string): Promise<{ total: number; byStage: Record<string, number> }> {
-        const items = await this.fetch<{ stage: string }[]>(`/rest/v1/${entityType}?select=stage`);
+        const items = await this.fetch<{ stage: string }[]>(`/rest/v1/${entityType}?select=stage&company_id=eq.${this.companyId}`);
 
         const byStage: Record<string, number> = {};
         for (const item of items) {
